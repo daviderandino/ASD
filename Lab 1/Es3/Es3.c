@@ -147,80 +147,18 @@ void ordina_vett_by_data(struct corse *lc){
 }
 
 void stampa_contenuti(struct corse *lc){
-    int choice1,choice2;
+    int choice;
     char *filename = "../output.txt";
-    printf("Cosa vuoi stampare?\n");
-    printf("1.Codici tratta\n2.Stazioni di partenza\n3.Stazioni di arrivo\n4.Date\n5.Ore di partenza\n6.Ore di arrivo\n7.Minuti di ritardo\n");
-    scanf("%d",&choice1);
     printf("Dove vuoi stamparli?\n1.Video\n2.File\n");
-    scanf("%d",&choice2);
-    if(choice2==1){
-        switch (choice1) {
-            case 1:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].cod_tratta);
-                break;
-            case 2:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].partenza);
-                break;
-            case 3:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].destinazione);
-                break;
-            case 4:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].data);
-                break;
-            case 5:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].ora_part);
-                break;
-            case 6:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].ora_arr);
-                break;
-            case 7:
-                for(int i=0;i<n_corse;i++)
-                    printf("%s\n",lc[i].ritardo);
-                break;
-            default:
-                break;
-        }
-    } else{
+    scanf("%d",&choice);
+    if(choice==1){
+        for(int i=0;i<n_corse;i++)
+            printf("%s %s %s %s %s %s %d\n",lc[i].cod_tratta,lc[i].partenza,lc[i].destinazione,lc[i].data,lc[i].ora_part,lc[i].ora_arr,lc[i].ritardo);
+    }
+    else{
         FILE *fin = fopen(filename,"w");
-        switch (choice1) {
-            case 1:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].cod_tratta);
-                break;
-            case 2:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].partenza);
-                break;
-            case 3:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].destinazione);
-                break;
-            case 4:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].data);
-                break;
-            case 5:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].ora_part);
-                break;
-            case 6:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].ora_arr);
-                break;
-            case 7:
-                for(int i=0;i<n_corse;i++)
-                    fprintf(fin,"%s\n",lc[i].ritardo);
-                break;
-            default:
-                return;
-        }
+        for(int i=0;i<n_corse;i++)
+            fprintf(fin,"%s %s %s %s %s %s %d\n",lc[i].cod_tratta,lc[i].partenza,lc[i].destinazione,lc[i].data,lc[i].ora_part,lc[i].ora_arr,lc[i].ritardo);
         fclose(fin);
     }
 }
