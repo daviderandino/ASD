@@ -4,7 +4,7 @@ int iterativeBinarySearch(int array[], int start_index, int end_index, int eleme
 
 int main(){
     int V[] = {1,2,3,4,5,6,7,8,9,10},N=sizeof(V)/sizeof(V[0]);
-    int x = iterativeBinarySearch(V,0,N,3);
+    int x = iterativeBinarySearch(V,0,N-1,3);
     printf("%d\n",x);
 }
 
