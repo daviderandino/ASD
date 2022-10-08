@@ -14,8 +14,6 @@ int n_corse;
 
 void riempi_vett(struct corse *lc);
 void mostra_menu(struct corse *lc);
-int converti_data(char data[LENMAX]);
-int converti_ora(char ora[LENMAX]);
 void stampa_contenuti(struct corse *lc);
 void ordina_vett_by_data(struct corse *lc);
 void ordina_vett_by_partenza(struct corse *lc);
