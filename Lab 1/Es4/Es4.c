@@ -12,8 +12,6 @@ struct corse{
 int n_corse;
 
 void riempi_vett(struct corse *lc);
-int converti_data(char data[LENMAX]);
-int converti_ora(char ora[LENMAX]);
 void stampa_contenuti(struct corse *lc);
 void ricerca_tratta_lineare(struct corse *lc);
 void ricerca_tratta_dicotomica(struct corse *lc);
@@ -168,7 +166,6 @@ void stampa_contenuti(struct corse *lc){
 }
 
 void riempi_vett(struct corse *lc){
-    int data_numerica,ora_part_numerica,ora_arr_numerica;
     FILE *fin = fopen("../corse.txt","r");;
     fscanf(fin,"%d",&n_corse);
     for(int i=0;i<n_corse;i++) {
