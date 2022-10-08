@@ -7,7 +7,7 @@
 
 struct corse{
     char cod_tratta[LENMAX],partenza[LENMAX],destinazione[LENMAX],data[LENMAX],ora_part[LENMAX],ora_arr[LENMAX];
-    int ritardo,data_numerica,ora_part_numerica,ora_arr_numerica;
+    int ritardo;
 };
 
 int n_corse;
@@ -111,32 +111,19 @@ void ordina_vett_by_partenza(struct corse *lc){
     }
 }
 
-int converti_ora(char ora[LENMAX]){
-    char s[LENMAX];
-    int k=0;
-    for(int i=0;i< strlen(ora);i++){
-        if(ora[i]!=':'){
-            s[k] = ora[i];
-            k++;
-        }
-    }
-    s[k] = '\0';
-    return atoi(s);
-}
-
 void ordina_vett_by_data(struct corse *lc){
     int i, j, l=0, r=n_corse-1, flag = 1;
     struct corse temp;
     for(i = l;i<r && flag==1;i++){
         flag = 0;
         for(j = l; j < r - i + l; j++){
-            if(lc[j].data_numerica>lc[j+1].data_numerica){
+            if(strcmp(lc[j].data,lc[j+1].data)>0){
                 flag = 1;
                 temp = lc[j];
                 lc[j] = lc[j+1];
                 lc[j+1] = temp;
             }
-            else if(lc[j].data_numerica==lc[j+1].data_numerica && lc[j].ora_part_numerica>=lc[j+1].ora_part_numerica){
+            else if(strcmp(lc[j].data,lc[j+1].data)==0 && strcmp(lc[j].ora_part,lc[j+1].ora_part)>0){
                 flag = 1;
                 temp = lc[j];
                 lc[j] = lc[j+1];
@@ -164,30 +151,11 @@ void stampa_contenuti(struct corse *lc){
 }
 
 void riempi_vett(struct corse *lc){
-    int data_numerica,ora_part_numerica,ora_arr_numerica;
-    FILE *fin = fopen("../corse.txt","r");;
+    char *filename = "../corse.txt";
+    FILE *fin = fopen(filename,"r");;
     fscanf(fin,"%d",&n_corse);
     for(int i=0;i<n_corse;i++) {
         fscanf(fin, "%s%s%s%s%s%s%d", lc[i].cod_tratta,lc[i].partenza,lc[i].destinazione,lc[i].data,lc[i].ora_part,lc[i].ora_arr,&lc[i].ritardo);
-        data_numerica = converti_data(lc[i].data);
-        lc[i].data_numerica = data_numerica;
-        ora_part_numerica = converti_ora(lc[i].ora_part);
-        lc[i].ora_part_numerica = ora_part_numerica;
-        ora_arr_numerica = converti_ora(lc[i].ora_arr);
-        lc[i].ora_arr_numerica = ora_arr_numerica;
     }
     fclose(fin);
-}
-
-int converti_data(char data[LENMAX]){
-    char new_data[LENMAX];
-    int k=0;
-    for(int i=0;i< strlen(data);i++){
-        if(isdigit(data[i])){
-            new_data[k] = data[i];
-            k++;
-        }
-    }
-    new_data[k] = '\0';
-    return atoi(new_data);
 }
