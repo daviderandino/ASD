@@ -1,1 +1,1 @@
-Manca la ricerca dicotomica
+
