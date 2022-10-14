@@ -61,10 +61,7 @@ int main(){
                 break;
             case 7:
                 for(int i=0;i<n_corse;i++){
-                    free(rif_partenze[i]);
-                    free(rif_data[i]);
-                    free(rif_tratta[i]);
-                    free(rif_arrivi[i]);
+                    free(rif_partenze[i]); free(rif_data[i]); free(rif_tratta[i]); free(rif_arrivi[i]);
                 }
                 free(rif_partenze); free(rif_arrivi); free(rif_data); free(rif_tratta);
                 free(lista_corse);
