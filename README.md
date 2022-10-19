@@ -5,7 +5,7 @@ Corso di Algoritmi e Strutture Dati
 
 TEORIA
 
-https://www.youtube.com/playlist?list=PLUl4u3cNGP61Oq3tWYp6V_F-5jb5L2iHb
+https://www.youtube.com/playlist?list=PLUl4u3cNGP61Oq3tWYp6V_F-5jb5L2iHb  
 https://www.youtube.com/watch?v=0IAPZzGSbME&list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O
 https://www.youtube.com/channel/UC0RhatS1pyxInC00YKjjBqQ
 https://visualgo.net/en
