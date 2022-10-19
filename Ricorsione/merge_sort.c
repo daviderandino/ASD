@@ -5,11 +5,11 @@ void MergeSortR(int A[], int B[], int l, int r);
 void Merge(int A[], int B[], int l, int q, int r);
 
 int main(){
-    int A[]={4,3,1,2,5,1,3,6,7,8,1,9,1,2,3,4,56,3,4};
-    int B[20];
-    for(int i=0;i<19;i++) B[i]=0;
-    MergeSort(A,B,19);
-    for(int i=0;i<19;i++) printf("%d ",A[i]);
+    int A[]={12,6,4,5,9,2,3,1},N=8;
+    int B[N];
+    for(int i=0;i<N;i++) B[i]=0;
+    MergeSort(A,B,N);
+    for(int i=0;i<N;i++) printf("%d ",A[i]);
     return 0;
 }
 
