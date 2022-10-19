@@ -1,6 +1,8 @@
 # ASD
 Corso di Algoritmi e Strutture Dati
 
+-- SITI UTILI --
+
 TEORIA
 
 https://www.youtube.com/playlist?list=PLUl4u3cNGP61Oq3tWYp6V_F-5jb5L2iHb
