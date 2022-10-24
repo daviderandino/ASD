@@ -24,7 +24,6 @@ int majority(int *a, int N){
         if(m==a[i]) count++;
     if(count>N/2) return m;
     return -1;
-
 }
 
 int majorityR(int *A,int l,int r,int N){
