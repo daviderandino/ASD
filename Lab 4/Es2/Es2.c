@@ -31,7 +31,7 @@ int convertiData(char *s);
 int main(){
     int choice=-1,data1_num,data2_num;
     char *nome_file = "../anagrafica.txt",cod[MAXCH],data1[11],data2[11];
-    link x,head=NULL;
+    link x,y,p,head=NULL;
     Item d;
     x = malloc(sizeof(*x));
     riempi_lista(nome_file,&head);
@@ -71,6 +71,7 @@ int main(){
                 break;
             case 5:
                 d = head->val;
+                //y = head; p = NULL;
                 printf("Inserisci data 1 (gg/mm/yyyy):\n"); scanf("%s",data1); printf("Inserisci data 2 (gg/mm/yyyy):\n"); scanf("%s",data2);
                 data1_num = convertiData(data1); data2_num = convertiData(data2);
                 while(strcmp(d.codice,"")!=0){
@@ -88,6 +89,19 @@ int main(){
     return 0;
 }
 
+/*
+Item listDelByDate(link *h,Item d,int data1_num,int data2_num,link *y,link *p){
+    for(;*y!=NULL;*p=*y,*y=(*y)->next){
+        if((*y)->val.data_numerica>=data1_num && (*y)->val.data_numerica<=data2_num && (*y)->val.codice!=d.codice){
+            if(*y==*h) *h = (*y)->next;
+            else (*p)->next = (*y)->next;
+            return (*y)->val;
+        }
+    }
+    strcpy(d.codice,"");
+    return d;
+} */
+
 Item listDelByDate(link *h,Item d,int data1_num,int data2_num){
     link p,x;
     for(x=*h,p=NULL;x!=NULL;p=x,x=x->next){
@@ -97,7 +111,7 @@ Item listDelByDate(link *h,Item d,int data1_num,int data2_num){
             return x->val;
         }
     }
-    strcpy(d.codice,"");
+    strcpy(d.codice,""); // se non è stato trovato nulla restituisce l'Item dal codice vuoto
     return d;
 }
 
@@ -129,11 +143,9 @@ link insByInput(link h){
 }
 
 int convertiData(char *data){
-    int data_num;
     char s[9];
     s[0] = data[6]; s[1] = data[7]; s[2] = data[8]; s[3] = data[9]; s[4] = data[3];s[5] = data[4]; s[6] = data[0]; s[7] = data[1];
-    data_num = atoi(s);
-    return data_num;
+    return atol(s);
 }
 
 link newNode(Item val, link next){
@@ -145,7 +157,7 @@ link newNode(Item val, link next){
 }
 
 void stampa_lista(link x,link head){
-    FILE *fout = fopen("../outsput.txt","w");
+    FILE *fout = fopen("../output.txt","w");
     for(x=head;x!=NULL;x=x->next){
         fprintf(fout,"%s %s %s %s %s %s %d\n",x->val.codice,x->val.nome,x->val.cognome,x->val.data_nascita,x->val.via,x->val.citta,x->val.cap);
     }
