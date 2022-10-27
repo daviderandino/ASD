@@ -3,6 +3,8 @@
 #include<string.h>
 #define MAXCH 50
 
+// modificare funzione listDelByDate passando una variabile link by pointer in modo da diminuire la complessità
+
 typedef struct{
     char codice[6],nome[MAXCH],cognome[MAXCH],data_nascita[11],via[MAXCH],citta[MAXCH];
     int cap,data_numerica;
@@ -23,14 +25,14 @@ Item listDelkeyR(link *h, char *cod);
 link SortListIns(link h,Item val);
 link insByInput(link h);
 link insByFile(link h);
-Item listDelByDate(link *h);
+Item listDelByDate(link *h,Item d,int data1_num,int data2_num);
 int convertiData(char *s);
 
 int main(){
-    char *nome_file = "../anagrafica.txt",cod[MAXCH];
+    int choice=-1,data1_num,data2_num;
+    char *nome_file = "../anagrafica.txt",cod[MAXCH],data1[11],data2[11];
     link x,head=NULL;
     Item d;
-    int choice=-1;
     x = malloc(sizeof(*x));
     riempi_lista(nome_file,&head);
 
@@ -68,7 +70,13 @@ int main(){
                 else printf("Non trovato\n");
                 break;
             case 5:
-                listDelByDate(&head);
+                d = head->val;
+                printf("Inserisci data 1 (gg/mm/yyyy):\n"); scanf("%s",data1); printf("Inserisci data 2 (gg/mm/yyyy):\n"); scanf("%s",data2);
+                data1_num = convertiData(data1); data2_num = convertiData(data2);
+                while(strcmp(d.codice,"")!=0){
+                    d = listDelByDate(&head,d,data1_num,data2_num);
+                    if(strcmp(d.codice,"")!=0) printf("Elemento eliminato: %s %s %s %s %s %s %d\n",d.codice,d.nome,d.cognome,d.data_nascita,d.via,d.citta,d.cap);
+                }
                 break;
             case 6:
                 stampa_lista(x,head);
@@ -77,14 +85,20 @@ int main(){
                 exit(0);
         }
     } while(choice!=0);
+    return 0;
 }
 
-Item listDelByDate(link *h){
-    char *data1,*data2;
-    printf("Inserisci data 1:\n");
-    scanf("%s",data1);
-    printf("Inserisci data 2:\n");
-    scanf("%s",data2);
+Item listDelByDate(link *h,Item d,int data1_num,int data2_num){
+    link p,x;
+    for(x=*h,p=NULL;x!=NULL;p=x,x=x->next){
+        if(x->val.data_numerica>=data1_num && x->val.data_numerica<=data2_num && x->val.codice!=d.codice){
+            if(x==*h) *h = x->next;
+            else p->next = x->next;
+            return x->val;
+        }
+    }
+    strcpy(d.codice,"");
+    return d;
 }
 
 link insByFile(link h){
@@ -100,7 +114,6 @@ link insByFile(link h){
         h = SortListIns(h,d);
     }
     fclose(f2);
-    printf("Inserimento avvenuto con successo\n");
     return h;
 }
 
@@ -112,7 +125,6 @@ link insByInput(link h){
     printf("Inserisci cap:\n");scanf("%d",&d.cap);
     d.data_numerica = convertiData(d.data_nascita);
     h = SortListIns(h,d);
-    printf("Elemento aggiunto\n");
     return h;
 }
 
@@ -133,7 +145,7 @@ link newNode(Item val, link next){
 }
 
 void stampa_lista(link x,link head){
-    FILE *fout = fopen("../output.txt","w");
+    FILE *fout = fopen("../outsput.txt","w");
     for(x=head;x!=NULL;x=x->next){
         fprintf(fout,"%s %s %s %s %s %s %d\n",x->val.codice,x->val.nome,x->val.cognome,x->val.data_nascita,x->val.via,x->val.citta,x->val.cap);
     }
@@ -153,8 +165,15 @@ link SortListIns(link h, Item val){
     link x,p;
     if(h==NULL ||(h->val.data_numerica)>val.data_numerica)
         return newNode(val,h);
+    for(x=h;x!=NULL;x=x->next){ // alloco il nuovo elemento nella lista solo se non c'è un altro elemento con lo stesso codice
+        if(strcmp(val.codice,x->val.codice)==0){
+            printf("Elemento di codice %s gia' presente in lista!\n",val.codice);
+            return h;
+        }
+    }
     for(x=h->next,p=h;x!=NULL && val.data_numerica>(x->val.data_numerica); p=x, x=x->next);
-    p->next = newNode(val,x);
+        p->next = newNode(val,x);
+    printf("Inserimento avvenuto con successo (codice %s)\n",val.codice);
     return h;
 }
 
