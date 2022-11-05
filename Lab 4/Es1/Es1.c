@@ -29,8 +29,9 @@ int main(){
     fscanf(fin,"%d%d",&num_nodi,&num_archi);
     struct archi *Vett_archi = malloc(num_archi*sizeof(int));
     M = (int **) malloc(num_nodi*(sizeof(int *)));
-    for(int i=0;i<num_nodi;i++)
-        M[i] = malloc(num_nodi*sizeof(int));
+    for(int i=0;i<num_nodi;i++){
+        M[i] = (int *) malloc(num_nodi*(sizeof(int)));
+    }
     for(int i=0;i<num_nodi;i++){
         for(int j=0;j<num_nodi;j++){
             if(i==j) M[i][j] = 1;
@@ -49,6 +50,8 @@ int main(){
     for(int i=0;i<num_nodi;i++) val[i] = i;
     int *sol = (int*) malloc(num_nodi*sizeof(int));
     cnt = powerset(pos,val,sol,num_nodi,&cnt,M,Vett_archi,num_archi);
+    free(sol);
+    free(val);
 }
 
 int powerset(int pos,int *val,int *sol,int n,int *cnt,int **M,struct archi *Vett_archi,int num_archi) {
