@@ -30,7 +30,6 @@ int main(){
 
 int powerset(int pos,struct activity *val,int *sol,int n,int *cnt,int *el){
     int j,intersection,count,len,len_max=0;
-    // struct activity *max = malloc(sizeof(struct activity)*(n));
     if(pos>=n){
         intersection = 0; len = 0;
         for(j=0;j<n;j++){
@@ -40,7 +39,6 @@ int powerset(int pos,struct activity *val,int *sol,int n,int *cnt,int *el){
                 }
             }
         }
-        // count=0;
         if(intersection==0){
             for(j=0;j<n;j++) {
                 if (sol[j] != 0) {
