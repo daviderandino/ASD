@@ -20,7 +20,7 @@ int main(){
     fscanf(fin,"%d",&num_activities);
     activities = (struct activity *) malloc(sizeof(struct activity)*(num_activities));
     for(int i=0;i<num_activities;i++){
-        fscanf(fin,"%d%",&activities[i].inizio);
+        fscanf(fin,"%d",&activities[i].inizio);
         fscanf(fin,"%d",&activities[i].fine);
     }
     int *sol = (int*) malloc(num_activities*sizeof(int));
