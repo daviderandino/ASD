@@ -7,7 +7,7 @@ Da completare modularizzando bene e aggiungendo funzione wrapper
 #include<stdlib.h>
 
 struct activity{
-    int inizio,fine;
+    int inizio,fine,durata;
 };
 
 int powerset(int pos,struct activity *val,int *sol,int n,int *cnt,int *el,struct activity *max,int *len_max);
@@ -20,8 +20,9 @@ int main(){
     fscanf(fin,"%d",&num_activities);
     activities = (struct activity *) malloc(sizeof(struct activity)*(num_activities));
     for(int i=0;i<num_activities;i++){
-        fscanf(fin,"%d",&activities[i].inizio);
+        fscanf(fin,"%d%",&activities[i].inizio);
         fscanf(fin,"%d",&activities[i].fine);
+        activities[i].durata = activities[i].fine - activities[i].inizio;
     }
     int *sol = (int*) malloc(num_activities*sizeof(int));
     struct activity *max = (struct activity *) malloc(sizeof(struct activity)*(num_activities));
@@ -47,7 +48,7 @@ int powerset(int pos,struct activity *val,int *sol,int n,int *cnt,int *el,struct
         count=0;
         if(intersection==0){
             for(j=0;j<n;j++)
-                if (sol[j] != 0) len+=val[j].fine - val[j].inizio;
+                if (sol[j] != 0) len+=val[j].durata;
             if(len>*len_max){
                 *len_max = len;
                 for(j=0;j<n;j++) {
