@@ -25,7 +25,7 @@ struct tiles{
     int val1,val2,rotazione;
 } typedef t;
 
-int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt);
+int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc,int **Board);
 t *alloca_tessere(t *Vett,int *N);
 int **alloca_board(int **Board, int *nr, int *nc,t *Vett);
 void riempi_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N);
@@ -42,7 +42,7 @@ int main(){
     int *mark = (int*) malloc(n_disp*sizeof(int));
     for(int i=0;i<n_disp;i++) mark[i] = 0;
 
-    disp(pos,tess_disp,sol,mark,n_disp,n_disp,cnt);
+    disp(pos,tess_disp,sol,mark,n_disp,n_disp,cnt,nr,nc,Board);
 
     for(int i=0;i<nr;i++)
         free(Board[i]);
@@ -51,18 +51,26 @@ int main(){
     free(tess_disp);
 }
 
-int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt){
-    int i;
+int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc,int **Board){
     if (pos >= k){
-        for (i=0; i<k; i++) printf("%d ", sol[i]);
+        for (int l=0; l<k; l++){
+            printf("%d ", sol[l]);
+            for(int i=0;i<nr;i++){
+                for(int j=0;j<nc;j++){
+                    if(Board[i][j]==-1) Board[i][j] = sol[l]; // modificare perchè Board[i][j] sarà diverso da -1 dopo la prima soluzione
+                                                              // quindi serve un vettore che tiene conto dei posti vuoti all'inizio  
+                }
+            }
+        }
+        
         printf("\n");
         return cnt+1;
     }
-    for (i=0; i<n; i++){
+    for (int i=0; i<n; i++){
         if (mark[i] == 0) {
             mark[i] = 1;
             sol[pos] = val[i];
-            cnt = disp(pos+1, val, sol, mark, n, k,cnt);
+            cnt = disp(pos+1,val,sol,mark,n,k,cnt,nr,nc,Board);
             mark[i] = 0;
         }
     }
