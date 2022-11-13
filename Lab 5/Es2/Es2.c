@@ -32,14 +32,16 @@ void riempi_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,
 int main(){
     t *tess_tot;
     int **Board,*tess_disp;
-    int N_tot,nr,nc,n_disp,k,cnt;
+    int N_tot,nr,nc,n_disp,pos=0,cnt=0;
     tess_tot = alloca_tessere(tess_tot,&N_tot);
     tess_disp = (int *) malloc(N_tot*sizeof(int));
     Board = alloca_board(Board,&nr,&nc,tess_tot);
     riempi_tessere_disponibili(tess_disp,Board,nr,nc,&n_disp,N_tot);
+    int *sol = (int*) malloc(n_disp*sizeof(int));
+    int *mark = (int*) malloc(n_disp*sizeof(int));
+    for(int i=0;i<n_disp;i++) mark[i] = 0;
 
-    for(int i=0;i<=n_disp;i++)
-        printf("%d\n",tess_disp[i]);
+    disp(pos,tess_disp,sol,mark,n_disp,n_disp,cnt);
 
     for(int i=0;i<nr;i++)
         free(Board[i]);
@@ -82,6 +84,7 @@ void riempi_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,
         if(flag==0) tess_disp[cnt2++] = i;
     }
 
+    cnt++;
     *n = cnt;
 }
 
