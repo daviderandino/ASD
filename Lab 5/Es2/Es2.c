@@ -11,7 +11,8 @@
 
  - Generare tutte le disposizioni semplici, esempio {1,4,5,7,8} , {1,5,4,7,8} ...
 
- - Posizionarle in maniera ordinata nella scacchiera Board
+ - Posizionarle in maniera ordinata nella scacchiera Board nei posti "liberi". Serve quindi un vettore che contiene gli indici
+ occupati {0,2,3,7}
 
  - Calcolare il punteggio per ogni soluzione e verificare che sia > punt_max. In caso positivo salvare la matrice
 
