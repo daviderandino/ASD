@@ -27,16 +27,19 @@ struct tiles{
 int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt);
 t *alloca_tessere(t *Vett,int *N);
 int **alloca_board(int **Board, int *nr, int *nc,t *Vett);
-void riempi_tessere_disponibili(t *tess_tot,t *tess_disp,int **Board,int nr,int nc,int *n,int N);
+void riempi_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N);
 
 int main(){
-    t *tess_tot,*tess_disp;
-    int **Board;
+    t *tess_tot;
+    int **Board,*tess_disp;
     int N_tot,nr,nc,n_disp,k,cnt;
     tess_tot = alloca_tessere(tess_tot,&N_tot);
-    tess_disp = (t*) malloc(N_tot*sizeof(t));
+    tess_disp = (int *) malloc(N_tot*sizeof(int));
     Board = alloca_board(Board,&nr,&nc,tess_tot);
-    riempi_tessere_disponibili(tess_tot,tess_disp,Board,nr,nc,&n_disp,N_tot);
+    riempi_tessere_disponibili(tess_disp,Board,nr,nc,&n_disp,N_tot);
+
+    for(int i=0;i<=n_disp;i++)
+        printf("%d\n",tess_disp[i]);
 
     for(int i=0;i<nr;i++)
         free(Board[i]);
@@ -63,9 +66,8 @@ int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt){
     return cnt;
 }
 
-void riempi_tessere_disponibili(t *tess_tot,t *tess_disp,int **Board,int nr,int nc,int *n,int N){
-    int *V1 = (int*) malloc(N*sizeof(int)),cnt=0,cnt2=0;
-    int *V2 = (int*) malloc(N*sizeof(int)),flag;
+void riempi_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N){
+    int *V1 = (int*) malloc(N*sizeof(int)),cnt=0,cnt2=0,flag;
     for(int i=0;i<nr;i++) {
         for (int j = 0; j < nc; j++) {
             if (Board[i][j] != -1) V1[cnt++] = Board[i][j];
@@ -77,25 +79,11 @@ void riempi_tessere_disponibili(t *tess_tot,t *tess_disp,int **Board,int nr,int 
         for(int j=0;j<N;j++){
             if(i==V1[j]) flag = 1;
         }
-        if(flag==0) V2[cnt2++] = i;
-    }
-
-    for(int i=0;i<cnt2;i++)
-        printf("%d\n",V2[i]);
-
-
-    for(int i=0;i<cnt;i++){
-        tess_disp[i].color1 = tess_tot[V2[i]].color1;
-        tess_disp[i].color2 = tess_tot[V2[i]].color2;
-        tess_disp[i].val1 = tess_tot[V2[i]].val1;
-        tess_disp[i].val2 = tess_tot[V2[i]].val2;
-        tess_disp[i].rotazione = tess_tot[V2[i]].rotazione;
+        if(flag==0) tess_disp[cnt2++] = i;
     }
 
     *n = cnt;
 }
-
-
 
 int **alloca_board(int **Board,int *nr,int *nc, t *Vett){
     FILE *fin = fopen("../board.txt","r");
