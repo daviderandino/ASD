@@ -30,7 +30,7 @@ t *alloca_tessere(t *Vett,int *N);
 int **alloca_board(int **Board, int *nr, int *nc,t *Vett);
 void cerca_tessere_occupate_e_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N,int *tess_occup);
 void stampa_tessere_occupate_e_disponibili(int *tess_occup,int *tess_disp,int n_occupate,int n_disp);
-void dealloca_all(t *tess_tot,int *tess_disp,int *tess_occup,int **Board,int nr);
+void dealloca_tutto(t *tess_tot,int *tess_disp,int *tess_occup,int **Board,int nr);
 
 int main(){
     t *tess_tot;
@@ -50,11 +50,11 @@ int main(){
 
 
     // disp(pos,tess_disp,sol,mark,n_disp,n_disp,cnt,nr,nc,Board);
-    
-    dealloca_all(tess_tot,tess_disp,tess_occup,Board,nr);
+
+    dealloca_tutto(tess_tot,tess_disp,tess_occup,Board,nr);
 }
 
-void dealloca_all(t *tess_tot,int *tess_disp,int *tess_occup,int **Board,int nr){
+void dealloca_tutto(t *tess_tot,int *tess_disp,int *tess_occup,int **Board,int nr){
     for(int i=0;i<nr;i++)
         free(Board[i]);
     free(Board);
