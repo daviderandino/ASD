@@ -12,7 +12,7 @@
  - Generare tutte le disposizioni semplici, esempio {1,4,5,7,8} , {1,5,4,7,8} ...
 
  - Posizionarle in maniera ordinata nella scacchiera Board nei posti "liberi". Serve quindi un vettore che contiene gli indici
- occupati {0,2,3,7}
+ occupati {0,2,3,7}. GLI INDICI DELLA MATRICE, NON LE TESSERE!!!
 
  - Calcolare il punteggio per ogni soluzione e verificare che sia > punt_max. In caso positivo salvare la matrice
 
@@ -25,65 +25,40 @@ struct tiles{
     int val1,val2,rotazione;
 } typedef t;
 
-int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc,int **Board);
+int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc,int **Board,int *indici_occup);
 t *alloca_tessere(t *Vett,int *N);
 int **alloca_board(int **Board, int *nr, int *nc,t *Vett);
-void cerca_tessere_occupate_e_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N,int *tess_occup);
-void stampa_tessere_occupate_e_disponibili(int *tess_occup,int *tess_disp,int n_occupate,int n_disp);
-void dealloca_tutto(t *tess_tot,int *tess_disp,int *tess_occup,int **Board,int nr);
+void cerca_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N,int *indici_occup);
+void stampa_indici_occupati_e_tessere_disponibili(int *indici_occup,int *tess_disp,int n_occupate,int n_disp);
+void dealloca_tutto(t *tess_tot,int *tess_disp,int *indici_occup,int **Board,int nr);
 
 int main(){
     t *tess_tot;
-    int **Board,*tess_disp,*tess_occup;
+    int **Board,*tess_disp,*indici_occup;
     int N_tot,nr,nc,n_disp,pos=0,cnt=0,n_occupate;
     tess_tot = alloca_tessere(tess_tot,&N_tot);
     tess_disp = (int *) malloc(N_tot*sizeof(int));
-    tess_occup = (int *) malloc(N_tot*sizeof(int));
+    indici_occup = (int *) malloc(N_tot*sizeof(int));
     Board = alloca_board(Board,&nr,&nc,tess_tot);
-    cerca_tessere_occupate_e_disponibili(tess_disp,Board,nr,nc,&n_disp,N_tot,tess_occup);
+    cerca_tessere_disponibili(tess_disp,Board,nr,nc,&n_disp,N_tot,indici_occup);
     n_occupate = N_tot - n_disp;
-    stampa_tessere_occupate_e_disponibili(tess_occup,tess_disp,n_occupate,n_disp);
+    // stampa_indici_occupati_e_tessere_disponibili(indici_occup,tess_disp,n_occupate,n_disp);
     int *sol = (int*) malloc(n_disp*sizeof(int));
     int *mark = (int*) malloc(n_disp*sizeof(int));
     for(int i=0;i<n_disp;i++) mark[i] = 0;
-
-
-
-    // disp(pos,tess_disp,sol,mark,n_disp,n_disp,cnt,nr,nc,Board);
-
-    dealloca_tutto(tess_tot,tess_disp,tess_occup,Board,nr);
+    cnt = disp(pos,tess_disp,sol,mark,n_disp,n_disp,cnt,nr,nc,Board,indici_occup);
+    dealloca_tutto(tess_tot,tess_disp,indici_occup,Board,nr);
 }
 
-void dealloca_tutto(t *tess_tot,int *tess_disp,int *tess_occup,int **Board,int nr){
-    for(int i=0;i<nr;i++)
-        free(Board[i]);
-    free(Board);
-    free(tess_tot);
-    free(tess_disp);
-    free(tess_occup);
-}
-
-void stampa_tessere_occupate_e_disponibili(int *tess_occup,int *tess_disp,int n_occupate,int n_disp){
-    printf("Tessere occupate:\n");
-    for(int i=0;i<n_occupate;i++){
-        printf("%d ",tess_occup[i]);
-    }
-    printf("\n");
-
-    printf("Tessere libere:\n");
-    for(int i=0;i<n_disp;i++)
-        printf("%d ",tess_disp[i]);
-    printf("\n");
-}
-
-int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc,int **Board){
+int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc,int **Board,int *indici_occup){
     if (pos >= k){
         for (int l=0; l<k; l++){
             printf("%d ", sol[l]);
             for(int i=0;i<nr;i++){
                 for(int j=0;j<nc;j++){
-                    if(Board[i][j]==-1) Board[i][j] = sol[l]; // modificare perchè Board[i][j] sarà diverso da -1 dopo la prima soluzione
-                                                              // quindi serve un vettore che tiene conto dei posti vuoti all'inizio
+
+                    // if(Board[i][j]==-1) Board[i][j] = sol[l]; // modificare perchè Board[i][j] sarà diverso da -1 dopo la prima soluzione
+                    // quindi serve un vettore che tiene conto dei posti vuoti all'inizio
                 }
             }
         }
@@ -95,25 +70,51 @@ int disp(int pos,int *val,int *sol,int *mark, int n, int k,int cnt,int nr,int nc
         if (mark[i] == 0) {
             mark[i] = 1;
             sol[pos] = val[i];
-            cnt = disp(pos+1,val,sol,mark,n,k,cnt,nr,nc,Board);
+            cnt = disp(pos+1,val,sol,mark,n,k,cnt,nr,nc,Board,indici_occup);
             mark[i] = 0;
         }
     }
     return cnt;
 }
 
-void cerca_tessere_occupate_e_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N,int *tess_occup){
-    int cnt=0,cnt2=0,flag;
+void dealloca_tutto(t *tess_tot,int *tess_disp,int *indici_occup,int **Board,int nr){
+    for(int i=0;i<nr;i++)
+        free(Board[i]);
+    free(Board);
+    free(tess_tot);
+    free(tess_disp);
+    free(indici_occup);
+}
+
+void stampa_indici_occupati_e_tessere_disponibili(int *indici_occup,int *tess_disp,int n_occupate,int n_disp){
+    printf("Indici occupati:\n");
+    for(int i=0;i<n_occupate;i++){
+        printf("%d ",indici_occup[i]);
+    }
+    printf("\n");
+
+    printf("Tessere libere:\n");
+    for(int i=0;i<n_disp;i++)
+        printf("%d ",tess_disp[i]);
+    printf("\n");
+}
+
+void cerca_tessere_disponibili(int *tess_disp,int **Board,int nr,int nc,int *n,int N,int *indici_occup){
+    int cnt=0,cnt2=0,flag,cnt3=0;
+    int *V = (int*) malloc(N*sizeof(int));
     for(int i=0;i<nr;i++) {
         for (int j = 0; j < nc; j++) {
-            if (Board[i][j] != -1) tess_occup[cnt++] = Board[i][j];
+            if (Board[i][j] != -1){
+                V[cnt++] = Board[i][j];
+                indici_occup[cnt3++] = nc*i+j;
+            }
         }
     }
 
     for(int i=0;i<N;i++) {
         flag = 0;
         for(int j=0;j<N;j++){
-            if(i==tess_occup[j]) flag = 1;
+            if(i==V[j]) flag = 1;
         }
         if(flag==0) tess_disp[cnt2++] = i;
     }
