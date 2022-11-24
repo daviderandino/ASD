@@ -2,18 +2,14 @@
 #include<stdlib.h>
 #include "personaggi.h"
 
-// manca implementazione funzione calcolo stats
+// risolvere bug ricalcolo statistiche (non toglie punti dopo aver eliminato un oggetto e ricalcolato le stats, ma li aggiunge)
 
-// gestire caso utente prova a riempire lista/vett due volte
-
-// creare una funzione ItemSetVoid che setta un oggetto equipaggiato a void quando eliminato
-
-// impedire all'utente di proseguire se lista o vettore sono vuoti
-
-// modularizzare meglio
+// aggiungere struct wrapper che contiene num_personaggi e i puntatori a head e tail della lista
+// idem per gli oggetti
+// quindi num_ogg,num_pers non devono essere visibili al main.
 
 int main() {
-    int choice = -1,num_pers=0,num_ogg=0;
+    int choice = -1,num_pers=0,num_ogg=0,lista_caricata=0,vett_caricato=0;
     FILE *fp1,*fp2;
     do {
         printf("Cosa vuoi fare?\n"
@@ -28,14 +24,24 @@ int main() {
         scanf("%d",&choice);
         switch (choice) {
             case 1:
-                fp1 = fopen("../pg.txt","r");
-                num_pers = carica_lista(fp1);
-                fclose(fp1);
+                if(lista_caricata==0){
+                    fp1 = fopen("../pg.txt","r");
+                    num_pers = carica_lista(fp1);
+                    fclose(fp1);
+                    lista_caricata++;
+                }
+                else
+                    printf("Hai gia' caricato la lista!\n");
                 break;
             case 2:
-                fp2 = fopen("../inventario.txt","r");
-                num_ogg = alloca_vettInv(fp2);
-                fclose(fp2);
+                if(vett_caricato==0){
+                    fp2 = fopen("../inventario.txt","r");
+                    num_ogg = alloca_vettInv(fp2);
+                    fclose(fp2);
+                    vett_caricato++;
+                }
+                else
+                    printf("Hai gia' caricato il vettore!\n");
                 break;
             case 3:
                 aggiungi_personaggio();

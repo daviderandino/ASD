@@ -16,7 +16,7 @@ int alloca_vettInv(FILE *fp){
 
 void stampa_vettInv(int n){
     for(int i=0;i<n;i++){
-        printf("%s %s %d %d %d %d %d %d\n",vettInv[i].nome,vettInv[i].tipologia,vettInv[i].mod_hp,vettInv[i].mod_mp,vettInv[i].mod_atk,vettInv[i].mod_def,vettInv[i].mod_mag,vettInv[i].mod_spr);
+        stampa_oggetto(vettInv[i]);
     }
 }
 
@@ -25,4 +25,8 @@ inv_t cerca_oggetto(char *nome,int num_ogg){
         if(strcmp(vettInv[i].nome,nome)==0)
             return vettInv[i];
     }
+}
+
+void stampa_oggetto(inv_t ogg){
+    printf("%s %s %d %d %d %d %d %d\n",ogg.nome,ogg.tipologia,ogg.mod_hp,ogg.mod_mp,ogg.mod_atk,ogg.mod_def,ogg.mod_mag,ogg.mod_spr);
 }

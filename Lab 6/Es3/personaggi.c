@@ -94,9 +94,15 @@ void aggiungi_oggetto(int num_ogg){
     char cod_pers[LENMAX],nome_ogg[LENMAX];
     int i;
     inv_t oggetto;
+    pg_t pg;
     stampa_lista();
     printf("A quale personaggio vuoi aggiungere un oggetto? Inserisci il codice:\n");
     scanf("%s",cod_pers);
+    pg = cerca_personaggio(cod_pers);
+    if(strcmp(pg.codice,"") == 0){
+        printf("Input errato\n");
+        return;
+    }
     stampa_vettInv(num_ogg);
     printf("Inserisci il nome dell'oggetto da aggiungere:\n");
     scanf("%s",nome_ogg);
@@ -118,26 +124,41 @@ pg_t cerca_personaggio(char *cod){
         if(strcmp(x->val.codice,cod)==0)
             return x->val;
     }
+    return pgSetVoid();
+}
+
+pg_t pgSetVoid(){
+    pg_t pg;
+    strcpy(pg.nome,"");
+    strcpy(pg.codice,"");
+    strcpy(pg.classe,"");
+    return pg;
 }
 
 void stampa_dettagli_personaggio(pg_t pg){
     printf("%s %s %s %d %d %d %d %d %d\n",pg.codice,pg.nome,pg.classe,pg.stat.hp,pg.stat.mp,pg.stat.atk,pg.stat.def,pg.stat.mag,pg.stat.spr);
-    printf("Oggetti equipaggiati: ");
+    printf("Oggetti equipaggiati: \n");
     for(int i=0;i<pg.equip.inUso;i++){
         printf("%s %s\n",pg.equip.vettEq[i].nome,pg.equip.vettEq[i].tipologia);
     }
-
 }
 
 void rimuovi_oggetto(int num_ogg){
     char cod_pers[LENMAX],nome_ogg[LENMAX];
     int i;
     pg_t pg;
-    inv_t oggetto;
     stampa_lista();
     printf("A quale personaggio vuoi rimuovere un oggetto? Inserisci il codice:\n");
     scanf("%s",cod_pers);
     pg = cerca_personaggio(cod_pers);
+    if(strcmp(pg.codice,"") == 0){
+        printf("Input errato\n");
+        return;
+    }
+    if(pg.equip.inUso==0){
+        printf("Il personaggio non ha oggetti equipaggiati!\n");
+        return;
+    }
     stampa_dettagli_personaggio(pg);
     printf("Quale oggetto vuoi rimuovere? Inserisci il nome:\n");
     scanf("%s",nome_ogg);
@@ -149,15 +170,34 @@ void rimuovi_oggetto(int num_ogg){
     }
     pg.equip.inUso--;
     printf("Oggetto rimosso con successo\n");
-    stampa_dettagli_personaggio(pg);
 
 }
 
 void calcola_stats(){
     char cod_pers[LENMAX];
+    int k;
+    int hp=0,mp=0,atk=0,def=0,mag=0,spr=0;
     pg_t pg;
     printf("Di che personaggio vuoi calcolare le statistiche? Inserisci il codice:\n");
     scanf("%s",cod_pers);
     pg = cerca_personaggio(cod_pers);
-
+    k = pg.equip.inUso;
+    for(int i=0;i<k;i++){
+        hp = pg.equip.vettEq[i].mod_hp + hp;
+        mp = pg.equip.vettEq[i].mod_mp + mp;
+        atk = pg.equip.vettEq[i].mod_atk + atk;
+        def = pg.equip.vettEq[i].mod_def + def;
+        mag = pg.equip.vettEq[i].mod_mag + mag;
+        spr = pg.equip.vettEq[i].mod_spr + spr;
+    }
+    link x;
+    for(x=h;x!=NULL;x=x->next){
+        if(strcmp(x->val.codice,cod_pers)==0){
+            x->val.stat.def+=def;x->val.stat.atk+=atk;x->val.stat.mp+=mp;
+            x->val.stat.mag+=mag;x->val.stat.spr+=spr;x->val.stat.hp+=hp;
+            pg = x->val;
+        }
+    }
+    printf("Statistiche calcolate con successo\n");
+    stampa_dettagli_personaggio(pg);
 }

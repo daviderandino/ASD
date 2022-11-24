@@ -28,6 +28,7 @@ int carica_lista(FILE *fp);
 void stampa_lista();
 void elimina_personaggio();
 void aggiungi_personaggio();
+pg_t pgSetVoid();
 void listDelkeyR(char *cod);
 void aggiungi_oggetto(int num_ogg);
 void rimuovi_oggetto(int num_ogg);
