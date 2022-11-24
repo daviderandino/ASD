@@ -16,7 +16,6 @@ struct oggetto{
     int mod_hp,mod_mp,mod_atk,mod_def,mod_mag,mod_spr;
 } typedef inv_t;
 
-
 struct tab_equip{
     int inUso;
     inv_t *vettEq;
@@ -24,5 +23,6 @@ struct tab_equip{
 
 int alloca_vettInv(FILE *fp);
 void stampa_vettInv(int n);
+inv_t cerca_oggetto(char *nome,int num_ogg);
 
 #endif //LAB6ES3_INVENTARIO_H

@@ -2,14 +2,19 @@
 #include<stdlib.h>
 #include "personaggi.h"
 
-// gestire caso utente prova a riempire la lista due volte
-// risolvere conflitto vettore e lista...
+// manca implementazione funzione calcolo stats
+
+// gestire caso utente prova a riempire lista/vett due volte
+
+// creare una funzione ItemSetVoid che setta un oggetto equipaggiato a void quando eliminato
+
+// impedire all'utente di proseguire se lista o vettore sono vuoti
+
+// modularizzare meglio
 
 int main() {
     int choice = -1,num_pers=0,num_ogg=0;
-    char cod[7];
-    FILE *fp1 = fopen("../pg.txt","r");
-    FILE *fp2 = fopen("../inventario.txt","r");
+    FILE *fp1,*fp2;
     do {
         printf("Cosa vuoi fare?\n"
                "0.Esci\n"
@@ -23,31 +28,35 @@ int main() {
         scanf("%d",&choice);
         switch (choice) {
             case 1:
+                fp1 = fopen("../pg.txt","r");
                 num_pers = carica_lista(fp1);
+                fclose(fp1);
                 break;
             case 2:
+                fp2 = fopen("../inventario.txt","r");
                 num_ogg = alloca_vettInv(fp2);
+                fclose(fp2);
                 break;
             case 3:
                 aggiungi_personaggio();
                 num_pers++;
                 break;
             case 4:
-                printf("Inserisci il codice del personaggio che vuoi eliminare:\n");
-                scanf("%s",cod);
-                elimina_personaggio(cod);
+                elimina_personaggio();
                 num_pers--;
                 break;
             case 5:
-                printf("Quale oggetto vuoi aggiungere?\n");
-                stampa_vettInv(num_ogg);
-                aggiungi_oggetto();
+                aggiungi_oggetto(num_ogg);
+                break;
+            case 6:
+                rimuovi_oggetto(num_ogg);
+                break;
+            case 7:
+                calcola_stats();
                 break;
             default:
                 exit(0);
         }
-    fclose(fp1);
-    fclose(fp2);
     }
     while(choice!=0);
 

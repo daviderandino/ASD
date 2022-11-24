@@ -19,3 +19,10 @@ void stampa_vettInv(int n){
         printf("%s %s %d %d %d %d %d %d\n",vettInv[i].nome,vettInv[i].tipologia,vettInv[i].mod_hp,vettInv[i].mod_mp,vettInv[i].mod_atk,vettInv[i].mod_def,vettInv[i].mod_mag,vettInv[i].mod_spr);
     }
 }
+
+inv_t cerca_oggetto(char *nome,int num_ogg){
+    for(int i=0;i<num_ogg;i++){
+        if(strcmp(vettInv[i].nome,nome)==0)
+            return vettInv[i];
+    }
+}

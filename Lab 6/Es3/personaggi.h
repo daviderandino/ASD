@@ -26,10 +26,13 @@ link newNode(pg_t val,link next);
 link listInsTail(pg_t val);
 int carica_lista(FILE *fp);
 void stampa_lista();
-void elimina_personaggio(char *cod);
+void elimina_personaggio();
 void aggiungi_personaggio();
 void listDelkeyR(char *cod);
-void num_oggetti(int n);
-void aggiungi_oggetto();
+void aggiungi_oggetto(int num_ogg);
+void rimuovi_oggetto(int num_ogg);
+pg_t cerca_personaggio(char *cod);
+void stampa_dettagli_personaggio(pg_t pg);
+void calcola_stats();
 
 #endif //LAB6ES3_PERSONAGGI_H
