@@ -25,5 +25,6 @@ int alloca_vettInv(FILE *fp);
 void stampa_vettInv(int n);
 inv_t cerca_oggetto(char *nome,int num_ogg);
 void stampa_oggetto(inv_t ogg);
+inv_t oggSetVoid(inv_t ogg);
 
 #endif //LAB6ES3_INVENTARIO_H

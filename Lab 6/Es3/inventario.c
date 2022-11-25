@@ -30,3 +30,10 @@ inv_t cerca_oggetto(char *nome,int num_ogg){
 void stampa_oggetto(inv_t ogg){
     printf("%s %s %d %d %d %d %d %d\n",ogg.nome,ogg.tipologia,ogg.mod_hp,ogg.mod_mp,ogg.mod_atk,ogg.mod_def,ogg.mod_mag,ogg.mod_spr);
 }
+
+inv_t oggSetVoid(inv_t ogg){
+    ogg.mod_spr = 0; ogg.mod_mag = 0; ogg.mod_def = 0; ogg.mod_atk = 0; ogg.mod_mp = 0; ogg.mod_hp = 0;
+    strcpy(ogg.nome,"");
+    strcpy(ogg.tipologia,"");
+    return ogg;
+}

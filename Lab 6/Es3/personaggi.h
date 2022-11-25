@@ -35,5 +35,6 @@ void rimuovi_oggetto(int num_ogg);
 pg_t cerca_personaggio(char *cod);
 void stampa_dettagli_personaggio(pg_t pg);
 void calcola_stats();
+pg_t elimina_mod_ogg(pg_t pg,int j);
 
 #endif //LAB6ES3_PERSONAGGI_H

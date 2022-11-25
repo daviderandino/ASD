@@ -162,16 +162,32 @@ void rimuovi_oggetto(int num_ogg){
     stampa_dettagli_personaggio(pg);
     printf("Quale oggetto vuoi rimuovere? Inserisci il nome:\n");
     scanf("%s",nome_ogg);
-    for(i=0;i<pg.equip.inUso;i++){
-        if(strcmp(pg.equip.vettEq[i].nome,nome_ogg)==0){
-            strcpy(pg.equip.vettEq[i].nome,"");
-            strcpy(pg.equip.vettEq[i].tipologia,"");
+
+    link x;
+    for(x=h;x!=NULL;x=x->next){
+        if(strcmp(x->val.codice,cod_pers)==0){
+            i = x->val.equip.inUso;
+            for(int j=0;j<i;j++){
+                if(strcmp(x->val.equip.vettEq[j].nome,nome_ogg)==0){
+                    x->val = elimina_mod_ogg(x->val,j);
+                    x->val.equip.inUso--;
+                }
+            }
         }
     }
-    pg.equip.inUso--;
     printf("Oggetto rimosso con successo\n");
-
 }
+
+pg_t elimina_mod_ogg(pg_t pg,int j){
+    pg.stat.hp = pg.stat.hp - pg.equip.vettEq[j].mod_hp;
+    pg.stat.def = pg.stat.def - pg.equip.vettEq[j].mod_def;
+    pg.stat.mag = pg.stat.mag - pg.equip.vettEq[j].mod_mag;
+    pg.stat.spr = pg.stat.spr - pg.equip.vettEq[j].mod_spr;
+    pg.stat.mp = pg.stat.mp - pg.equip.vettEq[j].mod_mp;
+    pg.stat.atk = pg.stat.atk - pg.equip.vettEq[j].mod_atk;
+    return pg;
+}
+
 
 void calcola_stats(){
     char cod_pers[LENMAX];

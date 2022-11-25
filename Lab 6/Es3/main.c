@@ -2,8 +2,6 @@
 #include<stdlib.h>
 #include "personaggi.h"
 
-// risolvere bug ricalcolo statistiche (non toglie punti dopo aver eliminato un oggetto e ricalcolato le stats, ma li aggiunge)
-
 // aggiungere struct wrapper che contiene num_personaggi e i puntatori a head e tail della lista
 // idem per gli oggetti
 // quindi num_ogg,num_pers non devono essere visibili al main.
@@ -22,6 +20,10 @@ int main() {
                "6.Rimuovere un oggetto dall'equipaggiamento di un personaggio\n"
                "7.Calcolare le statistiche di un personaggio\n");
         scanf("%d",&choice);
+        if(choice!=1 && choice!=2 && (lista_caricata==0 || vett_caricato==0)){
+            printf("Errore: non puoi proseguire senza aver caricato sia la lista di personaggi che l'elenco di oggetti!\n");
+            exit(1);
+        }
         switch (choice) {
             case 1:
                 if(lista_caricata==0){
