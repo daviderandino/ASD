@@ -7,6 +7,9 @@ int main() {
     b = crea();
     // ...
     c = prod(a,b);
+    
+    // Il client può solo manipolare dei puntatori: a,b,c NON SONO struct ma puntatori
+    
     distruggi(a);
     distruggi(b);
     distruggi(c);
