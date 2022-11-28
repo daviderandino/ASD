@@ -1,29 +1,31 @@
 #include "inventario.h"
 
-inv_t *vettInv;
+tabInv_t *tabInv;
 
 int alloca_vettInv(FILE *fp){
     int n;
     fscanf(fp,"%d",&n);
-    vettInv = (inv_t *) malloc(n*sizeof(inv_t));
+    tabInv = malloc(sizeof(tabInv_t));
+    tabInv->vettInv = (inv_t *) malloc(n*sizeof(inv_t));
+    tabInv->nInv = n;
     for(int i=0;i<n;i++){
-        fscanf(fp,"%s%s%d%d%d%d%d%d",vettInv[i].nome,vettInv[i].tipologia,&vettInv[i].mod_hp,&vettInv[i].mod_mp,&vettInv[i].mod_atk,&vettInv[i].mod_def,&vettInv[i].mod_mag,&vettInv[i].mod_spr);
+        fscanf(fp,"%s%s%d%d%d%d%d%d",tabInv->vettInv[i].nome,tabInv->vettInv[i].tipologia,&tabInv->vettInv[i].mod_hp,&tabInv->vettInv[i].mod_mp,&tabInv->vettInv[i].mod_atk,&tabInv->vettInv[i].mod_def,&tabInv->vettInv[i].mod_mag,&tabInv->vettInv[i].mod_spr);
     }
     printf("Vettore di oggetti caricato con successo\n");
-    stampa_vettInv(n);
+    stampa_vettInv();
     return n;
 }
 
-void stampa_vettInv(int n){
-    for(int i=0;i<n;i++){
-        stampa_oggetto(vettInv[i]);
+void stampa_vettInv(){
+    for(int i=0;i<tabInv->nInv;i++){
+        stampa_oggetto(tabInv->vettInv[i]);
     }
 }
 
-inv_t cerca_oggetto(char *nome,int num_ogg){
-    for(int i=0;i<num_ogg;i++){
-        if(strcmp(vettInv[i].nome,nome)==0)
-            return vettInv[i];
+inv_t cerca_oggetto(char *nome){
+    for(int i=0;i<tabInv->nInv;i++){
+        if(strcmp(tabInv->vettInv[i].nome,nome)==0)
+            return tabInv->vettInv[i];
     }
 }
 

@@ -90,7 +90,7 @@ void listDelkeyR(char *cod){
     }
 }
 
-void aggiungi_oggetto(int num_ogg){
+void aggiungi_oggetto(){
     char cod_pers[LENMAX],nome_ogg[LENMAX];
     int i;
     inv_t oggetto;
@@ -103,10 +103,10 @@ void aggiungi_oggetto(int num_ogg){
         printf("Input errato\n");
         return;
     }
-    stampa_vettInv(num_ogg);
+    stampa_vettInv();
     printf("Inserisci il nome dell'oggetto da aggiungere:\n");
     scanf("%s",nome_ogg);
-    oggetto = cerca_oggetto(nome_ogg,num_ogg);
+    oggetto = cerca_oggetto(nome_ogg);
     link x;
     for(x=h;x!=NULL;x=x->next){
         if(strcmp(x->val.codice,cod_pers)==0){
@@ -143,7 +143,7 @@ void stampa_dettagli_personaggio(pg_t pg){
     }
 }
 
-void rimuovi_oggetto(int num_ogg){
+void rimuovi_oggetto(){
     char cod_pers[LENMAX],nome_ogg[LENMAX];
     int i;
     pg_t pg;

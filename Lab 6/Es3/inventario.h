@@ -21,9 +21,14 @@ struct tab_equip{
     inv_t *vettEq;
 } typedef tab_equip_t;
 
+struct tabInv_t{
+    inv_t *vettInv;
+    int nInv;
+} typedef tabInv_t;
+
 int alloca_vettInv(FILE *fp);
-void stampa_vettInv(int n);
-inv_t cerca_oggetto(char *nome,int num_ogg);
+void stampa_vettInv();
+inv_t cerca_oggetto(char *nome);
 void stampa_oggetto(inv_t ogg);
 inv_t oggSetVoid(inv_t ogg);
 
