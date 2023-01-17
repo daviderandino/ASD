@@ -40,5 +40,4 @@ int f(int *v1, int *v2, int dim1, int dim2,int *v3){
     }
     realloc(v3,cnt);
     return cnt;
-
 }
