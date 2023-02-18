@@ -1,6 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+/*
+Sia data una lista concatenata L. Sia dato un intero k. Si scriva una funzione C che scambi il k-esimo nodo dalla testa
+della lista con il k-esimo nodo dalla coda della lista
+void swap(list L, int k);
+Oltre che l'implementazione della funzione swap, si richiede anche l'esplicita definizione del tipo list e 
+dei nodi usati all'interno delle liste. La lista sia un ADT di I classe. Ai fini dell'esercizio, 
+non si può fare uso di funzioni di libreria. Negli scambi è lecito o scambiare i valori o scambiare i nodi
+Esempio: se la lista contiene 10, 20, 30, 40, 50, 60, 70 e k=0 oppure k=6, dopo lo scambio conterrà 
+70, 20, 30, 40, 50, 60, 10. Se la lista contiene 10, 20, 30, 40, 50, 60, 70 e k=2, 
+dopo lo scambio conterrà 10, 20, 50, 40, 30, 60, 70. Per k > 6 lo scambio non avviene. 
+*/
+
 typedef struct nodo *link;
 
 struct nodo{
