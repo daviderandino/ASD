@@ -21,19 +21,36 @@ link newNode(int n,link next);
 lista_t *Crea_Lista();
 link Crea_Nodo_tail(int n,link h);
 void add_numbers(lista_t *l);
+void stampaLista(lista_t *l);
 
 int main(){
     lista_t *l = Crea_Lista();
-    Crea_Nodo_tail(1,l->head);
-    Crea_Nodo_tail(4,l->head);
-    Crea_Nodo_tail(10,l->head);
+    l->head = Crea_Nodo_tail(1,l->head);
+    l->head = Crea_Nodo_tail(4,l->head);
+    l->head = Crea_Nodo_tail(10,l->head);
     add_numbers(l);
+    stampaLista(l);
+}
+
+void stampaLista(lista_t *l){
+    link x;
+    for(x=l->head;x!=NULL;x=x->next){
+        printf("%d ",x->val);
+    }
 }
 
 void add_numbers(lista_t *l){
     link x,p;
-    for(x=l->head,p=x->next;x!=NULL;x=x->next){
-        printf("%d",p->val-x->val);
+    int a,b;
+    for(x=l->head,p=NULL;x!=NULL;p=x,x=x->next){
+        if(p!=NULL){
+            a = p->val+1; b = x->val;
+            for(int i=a;i<b;i++){
+                p->next = newNode(i, x);
+                p = p->next;
+            }
+
+        }
     }
 }
 
@@ -54,13 +71,6 @@ link newNode(int n,link next){
         x->next = next;
     }
     return x;
-}
-
-void stampaLista(lista_t *l){
-    link x;
-    for(x=l->head;x!=NULL;x=x->next)
-        printf("%d ",x->val);
-    printf("\n");
 }
 
 link Crea_Nodo_tail(int n,link h){
